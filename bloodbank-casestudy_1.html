@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case File 002 — Blood Bank · Grace Romanus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0F172A; --red: #EF4444; --teal: #0EA5E9; --coral: #F97316;
+      --off: #F8FAFC; --white: #FFFFFF; --mid: #64748B;
+      --light: #E2E8F0; --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--off); color: var(--navy); line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light);
+      padding: 0 6vw; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .nav-logo span { color: var(--teal); }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--teal); }
+
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 120px 6vw 80px; position: relative; overflow: hidden;
+      background: var(--navy);
+    }
+    .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(239,68,68,0.1) 0%, transparent 70%); }
+    .hero::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 70%); }
+    .hero-inner { max-width: 780px; position: relative; z-index: 1; }
+    .case-file-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+    .case-file-num { font-family: 'Syne', sans-serif; font-size: clamp(64px, 12vw, 140px); font-weight: 800; color: rgba(255,255,255,0.04); line-height: 1; letter-spacing: -4px; margin-bottom: -20px; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(36px, 6vw, 68px); font-weight: 800; color: #fff; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; position: relative; z-index: 1; }
+    .hero h1 .accent { color: var(--red); }
+    .hero-hook { font-family: 'Crimson Pro', serif; font-size: clamp(18px, 2.5vw, 24px); color: #94A3B8; line-height: 1.8; margin-bottom: 48px; max-width: 620px; font-style: italic; }
+    .hero-hook strong { color: var(--coral); font-style: normal; font-weight: 600; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 32px; margin-bottom: 48px; }
+    .meta-label { font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .meta-value { font-size: 14px; color: #CBD5E1; font-weight: 500; }
+    .scroll-hint { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #475569; letter-spacing: 0.08em; text-transform: uppercase; }
+    .scroll-line { width: 40px; height: 1px; background: #475569; }
+
+    .stats-bar { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 28px 6vw; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--red); }
+    .stat-label { font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+    .story { max-width: 720px; margin: 0 auto; padding: 80px 6vw; background: var(--off); }
+    .chapter { margin-bottom: 72px; }
+    .chapter-tag { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .chapter-icon { font-size: 20px; }
+    .chapter-label { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); }
+    .chapter-line { flex: 1; height: 1px; background: var(--light); }
+    .chapter h2 { font-family: 'Syne', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: var(--navy); letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 24px; }
+    .chapter p { font-size: 17px; color: var(--mid); line-height: 1.9; margin-bottom: 20px; }
+    .chapter p strong { color: var(--navy); font-weight: 600; }
+    .chapter p em { color: var(--coral); font-style: italic; }
+
+    .pull-quote { border-left: 3px solid var(--red); padding: 20px 28px; margin: 32px 0; background: rgba(239,68,68,0.04); border-radius: 0 8px 8px 0; }
+    .pull-quote p { font-family: 'Crimson Pro', serif; font-size: 22px; color: var(--navy); font-style: italic; line-height: 1.6; margin: 0; }
+    .pull-quote p span { color: var(--red); font-style: normal; font-weight: 600; }
+
+    .finding-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .finding-card { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 20px 24px; border-top: 3px solid var(--red); transition: transform 0.2s, box-shadow 0.2s; }
+    .finding-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(15,23,42,0.08); }
+    .finding-card.teal { border-top-color: var(--teal); }
+    .finding-card-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--red); line-height: 1; margin-bottom: 8px; }
+    .finding-card.teal .finding-card-num { color: var(--teal); }
+    .finding-card-label { font-size: 13px; color: var(--mid); line-height: 1.5; }
+
+    .story-divider { display: flex; align-items: center; gap: 16px; margin: 48px 0; color: var(--light); font-size: 12px; }
+    .story-divider::before, .story-divider::after { content: ''; flex: 1; height: 1px; background: var(--light); }
+
+    .dashboard-frame { background: var(--white); border: 1px solid var(--light); border-radius: 16px; overflow: hidden; margin: 20px 0; box-shadow: 0 4px 16px rgba(15,23,42,0.06); }
+    .dashboard-label { padding: 12px 20px; background: var(--off); border-bottom: 1px solid var(--light); font-size: 11px; color: var(--mid); letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .dashboard-label::before { content: '●'; color: var(--red); font-size: 8px; }
+    .dashboard-img-placeholder { height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: var(--off); }
+    .dashboard-img-placeholder .icon { font-size: 36px; opacity: 0.3; }
+    .dashboard-img-placeholder p { font-size: 13px; color: var(--light); }
+
+    .rec-list { display: flex; flex-direction: column; gap: 16px; margin: 28px 0; }
+    .rec-item { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s, transform 0.2s; }
+    .rec-item:hover { border-color: var(--red); transform: translateX(4px); }
+    .rec-num { width: 36px; height: 36px; border-radius: 8px; background: rgba(239,68,68,0.08); color: var(--red); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .rec-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .rec-desc { font-size: 14px; color: var(--mid); line-height: 1.7; }
+
+    .action-list { display: flex; flex-direction: column; gap: 12px; margin: 28px 0; }
+    .action-item { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 18px 24px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s; }
+    .action-item:hover { border-color: var(--red); }
+    .action-time { font-size: 12px; font-weight: 700; color: var(--red); flex-shrink: 0; padding-top: 2px; min-width: 44px; }
+    .action-text { font-size: 15px; color: var(--mid); line-height: 1.6; }
+    .action-text strong { color: var(--navy); }
+
+    .reflection { background: var(--white); border: 1px solid var(--light); border-left: 4px solid var(--red); border-radius: 0 16px 16px 0; padding: 40px 48px; margin: 48px 0; }
+    .reflection p { font-family: 'Crimson Pro', serif; font-size: 20px; color: var(--navy); font-style: italic; line-height: 1.8; margin-bottom: 16px; }
+    .reflection p:last-child { margin: 0; }
+    .reflection strong { color: var(--red); font-style: normal; }
+
+    .tools-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    .tool-badge { background: var(--white); border: 1px solid var(--light); color: var(--mid); font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 6px; }
+
+    .cs-cta { background: var(--navy); border-radius: 16px; padding: 48px; text-align: center; margin-top: 64px; }
+    .cs-cta h3 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .cs-cta p { font-size: 16px; color: #64748B; margin-bottom: 28px; }
+    .cs-cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-red { background: var(--red); color: #fff; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .btn-red:hover { background: #DC2626; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .finding-row { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .reflection { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Grace<span>.</span></a>
+    <a href="index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="case-file-tag">Case File · 002</div>
+      <div class="case-file-num">002</div>
+      <h1>The Blood<br><span class="accent">Shortage Crisis</span></h1>
+      <p class="hero-hook">Some hospitals had too little.<br>Others had too much — and were throwing it away.<br><strong>Both problems were happening at the same time.</strong><br>I opened the data to find out why.</p>
+      <div class="hero-meta">
+        <div><div class="meta-label">Domain</div><div class="meta-value">Healthcare Analytics</div></div>
+        <div><div class="meta-label">Dataset</div><div class="meta-value">15,000 rows synthetic</div></div>
+        <div><div class="meta-label">Tools</div><div class="meta-value">SQL · Python · Power BI</div></div>
+        <div><div class="meta-label">Type</div><div class="meta-value">Portfolio Project</div></div>
+      </div>
+      <div class="scroll-hint"><div class="scroll-line"></div>Scroll to read the investigation</div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">15K</div><div class="stat-label">Rows Analysed</div></div>
+    <div class="stat"><div class="stat-num">96%</div><div class="stat-label">O- Shortage Rate</div></div>
+    <div class="stat"><div class="stat-num">24.8%</div><div class="stat-label">AB+ Wastage Rate</div></div>
+    <div class="stat"><div class="stat-num">₦12.2M</div><div class="stat-label">Wastage Cost (LUTH)</div></div>
+  </div>
+
+  <div class="story">
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">📂</span><span class="chapter-label">Opening the File</span><div class="chapter-line"></div></div>
+      <h2>Two crises.<br>One blood bank system.</h2>
+      <p>Emergency wards were running out of O- blood. Patients needing urgent transfusions were at risk.</p>
+      <p>At the same time — in storage rooms across the same hospital network — bags of AB+ blood were quietly expiring on the shelves.</p>
+      <p><strong>Too little of one. Too much of another.</strong> And nobody had connected the two problems until the data did.</p>
+      <p><em>I opened 15,000 rows of blood bank records to find out what was really going on.</em></p>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🔍</span><span class="chapter-label">The Investigation</span><div class="chapter-line"></div></div>
+      <h2>15,000 rows. Eight blood types.<br>One pattern nobody expected.</h2>
+      <p>The dataset covered multiple hospitals across Nigeria — tracking every blood unit collected, used, expired, and wasted across all blood types and departments.</p>
+      <p>I used Python to generate a realistic synthetic dataset, then SQL to dig into the numbers — calculating shortage rates, wastage rates, utilisation rates, and average storage durations for every blood type.</p>
+      <p>Then I built a Power BI dashboard to make every finding visible at a glance.</p>
+      <div class="pull-quote"><p>What the data revealed wasn't just an inventory problem. It was a <span>life-or-death resource allocation failure.</span></p></div>
+      <div class="tools-row">
+        <span class="tool-badge">Python</span>
+        <span class="tool-badge">SQL</span>
+        <span class="tool-badge">Power BI</span>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🚨</span><span class="chapter-label">Finding One</span><div class="chapter-line"></div></div>
+      <h2>O- blood was almost gone.<br>Every single time.</h2>
+      <p>O- is the universal donor blood type — the one used when there's no time to check compatibility. The one Emergency, Surgery, and ICU departments reach for first.</p>
+      <p>Its shortage rate was <strong>96%.</strong> Its utilisation rate was <strong>94.9%</strong> — meaning almost every unit collected was being used immediately. There was virtually no safety buffer.</p>
+      <p>And the average storage duration? <strong>Just 5 days.</strong> Units arrived and disappeared almost instantly.</p>
+      <div class="finding-row">
+        <div class="finding-card"><div class="finding-card-num">96%</div><div class="finding-card-label">O- shortage rate — critically scarce, consumed almost entirely by Emergency, Surgery and ICU</div></div>
+        <div class="finding-card teal"><div class="finding-card-num">5 days</div><div class="finding-card-label">Average O- storage duration — units arrive and disappear almost instantly</div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">💸</span><span class="chapter-label">Finding Two</span><div class="chapter-line"></div></div>
+      <h2>While O- ran out —<br>AB+ was being thrown away.</h2>
+      <p>AB+ had a wastage rate of <strong>24.8%.</strong> Nearly 1 in 4 units collected was expiring before anyone used it.</p>
+      <p>The average storage duration was <strong>27 days</strong> — units sitting in refrigerators for nearly a month, going nowhere.</p>
+      <p>The blood bank was ordering too much AB+ and not enough O-. Both problems were costing lives and money simultaneously.</p>
+      <div class="pull-quote"><p>The most dangerous blood type to be short of was being <span>ignored.</span> The least needed was being <span>overstocked.</span></p></div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🏥</span><span class="chapter-label">Finding Three</span><div class="chapter-line"></div></div>
+      <h2>One hospital was losing<br>₦12.2 million to waste.</h2>
+      <p>Lagos University Teaching Hospital had the highest wastage cost of any hospital in the dataset — <strong>₦12.2 million</strong> in blood products expiring unused.</p>
+      <p>A+ blood had the highest wastage cost overall across the entire network. The overstocking problem was more widespread than the headline numbers suggested.</p>
+      <div class="finding-row">
+        <div class="finding-card"><div class="finding-card-num">₦12.2M</div><div class="finding-card-label">LUTH wastage cost — highest of any hospital in the dataset</div></div>
+        <div class="finding-card teal"><div class="finding-card-num">October</div><div class="finding-card-label">Peak demand month — February was lowest, creating a predictable seasonal pattern</div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">📊</span><span class="chapter-label">The Dashboard</span><div class="chapter-line"></div></div>
+      <h2>Every finding made visible.<br>Built for clinical decision makers.</h2>
+      <p>An interactive Power BI dashboard was built to surface every insight — designed so hospital managers could understand the full picture without reading a single SQL query.</p>
+      <div class="dashboard-frame">
+        <div class="dashboard-label">Blood Bank Overview — Shortage & Wastage KPIs</div>
+        <div class="dashboard-img-placeholder"><div class="icon">🩸</div><p>Add your Power BI dashboard screenshot here</p></div>
+      </div>
+      <div class="dashboard-frame">
+        <div class="dashboard-label">Department Consumption & Monthly Demand Trends</div>
+        <div class="dashboard-img-placeholder"><div class="icon">📈</div><p>Add your second dashboard screenshot here</p></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">⚖️</span><span class="chapter-label">The Verdict</span><div class="chapter-line"></div></div>
+      <h2>This wasn't a supply problem.<br>It was an allocation problem.</h2>
+      <p>The blood bank system wasn't short on donations overall. It was <strong>systematically misallocating what it had</strong> — overstocking low-demand types while critically underfunding the most needed one.</p>
+      <p><strong>The data didn't just find a financial inefficiency. It found a patient safety risk hiding in plain sight.</strong></p>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">💡</span><span class="chapter-label">The Recommendations</span><div class="chapter-line"></div></div>
+      <h2>Six actions for<br>blood bank managers.</h2>
+      <div class="rec-list">
+        <div class="rec-item"><div class="rec-num">1</div><div><div class="rec-title">Launch targeted O- donor campaigns immediately</div><div class="rec-desc">With a 96% shortage rate, O- collection drives should be prioritised — especially ahead of October when demand peaks.</div></div></div>
+        <div class="rec-item"><div class="rec-num">2</div><div><div class="rec-title">Reduce AB+ procurement significantly</div><div class="rec-desc">24.8% wastage means chronic overstocking. Cut quantities and enforce FIFO rotation to reduce expiry.</div></div></div>
+        <div class="rec-item"><div class="rec-num">3</div><div><div class="rec-title">Build seasonal procurement plans</div><div class="rec-desc">October peaks, February dips — this pattern is predictable. Build it into ordering models before it catches the system off guard.</div></div></div>
+        <div class="rec-item"><div class="rec-num">4</div><div><div class="rec-title">Review LUTH ordering and transfer protocols</div><div class="rec-desc">₦12.2M in wastage at one hospital warrants an urgent review. Excess units should be redistributed rather than left to expire.</div></div></div>
+        <div class="rec-item"><div class="rec-num">5</div><div><div class="rec-title">Maintain dedicated O- reserves for emergency departments</div><div class="rec-desc">Emergency, Surgery, and ICU are the highest O- consumers. Dedicated reserves with automatic replenishment would protect the most critical patients.</div></div></div>
+        <div class="rec-item"><div class="rec-num">6</div><div><div class="rec-title">Promote compatible blood group substitution</div><div class="rec-desc">Reserve O- strictly for O- patients and true emergencies. ABO-compatible alternatives should be used wherever clinically safe.</div></div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🗓️</span><span class="chapter-label">CEO Action Plan</span><div class="chapter-line"></div></div>
+      <h2>If I were the Hospital Director —<br>here's what Monday looks like.</h2>
+      <div class="action-list">
+        <div class="action-item"><div class="action-time">7AM</div><div class="action-text"><strong>Call the donor coordination team.</strong> Schedule an emergency O- collection drive before the next demand spike hits.</div></div>
+        <div class="action-item"><div class="action-time">9AM</div><div class="action-text"><strong>Freeze AB+ procurement orders</strong> until current stock drops below a set threshold. 27 days average storage is unacceptable.</div></div>
+        <div class="action-item"><div class="action-time">11AM</div><div class="action-text">Brief the clinical team on <strong>compatible blood group substitution protocols</strong> — O- is a last resort, not a default.</div></div>
+        <div class="action-item"><div class="action-time">2PM</div><div class="action-text">Initiate a review of <strong>LUTH's ordering and redistribution process.</strong> ₦12.2M in wastage needs immediate attention.</div></div>
+        <div class="action-item"><div class="action-time">4PM</div><div class="action-text">Set a new monthly KPI — <strong>O- availability rate and wastage cost per blood type</strong> — tracked before every procurement cycle.</div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">✍️</span><span class="chapter-label">Reflection</span><div class="chapter-line"></div></div>
+      <div class="reflection">
+        <p>I chose this project because blood bank management sits at the intersection of everything I care about — healthcare, data, and decisions that actually affect people's lives.</p>
+        <p>A 96% shortage rate is not just a number. It is a patient in an emergency room waiting for blood that isn't there.</p>
+        <p><strong>That's why this work matters. And that's why I do it.</strong></p>
+        <p>I am a Medical Laboratory Science student at Nnamdi Azikiwe University, building a career in healthcare and business intelligence. This is Case File 002.</p>
+      </div>
+    </div>
+
+    <div class="cs-cta fade-up">
+      <h3>Want to see the full code?</h3>
+      <p>The complete SQL queries, Python data generation script, and Power BI file are available on GitHub.</p>
+      <div class="cs-cta-btns">
+        <a href="https://github.com/your-username/blood-bank-analysis" class="btn-red" target="_blank">View GitHub Repo ↗</a>
+        <a href="index.html#projects" class="btn-outline">← Back to Projects</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

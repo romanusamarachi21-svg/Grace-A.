@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case File 001 — CartPulse Nigeria · Grace Romanus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0F172A; --teal: #0EA5E9; --coral: #F97316;
+      --off: #F8FAFC; --white: #FFFFFF; --mid: #64748B;
+      --light: #E2E8F0; --radius: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--off); color: var(--navy); line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light);
+      padding: 0 6vw; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .nav-logo span { color: var(--teal); }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--teal); }
+
+    /* HERO — dark section only */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 120px 6vw 80px; position: relative; overflow: hidden;
+      background: var(--navy);
+    }
+    .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%); }
+    .hero::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 70%); }
+    .hero-inner { max-width: 780px; position: relative; z-index: 1; }
+    .case-file-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+    .case-file-num { font-family: 'Syne', sans-serif; font-size: clamp(64px, 12vw, 140px); font-weight: 800; color: rgba(255,255,255,0.04); line-height: 1; letter-spacing: -4px; margin-bottom: -20px; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(36px, 6vw, 68px); font-weight: 800; color: #fff; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; position: relative; z-index: 1; }
+    .hero h1 .accent { color: var(--teal); }
+    .hero-hook { font-family: 'Crimson Pro', serif; font-size: clamp(18px, 2.5vw, 24px); color: #94A3B8; line-height: 1.8; margin-bottom: 48px; max-width: 620px; font-style: italic; }
+    .hero-hook strong { color: var(--coral); font-style: normal; font-weight: 600; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 32px; margin-bottom: 48px; }
+    .meta-label { font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .meta-value { font-size: 14px; color: #CBD5E1; font-weight: 500; }
+    .scroll-hint { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #475569; letter-spacing: 0.08em; text-transform: uppercase; }
+    .scroll-line { width: 40px; height: 1px; background: #475569; }
+
+    /* STATS BAR */
+    .stats-bar { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 28px 6vw; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--teal); }
+    .stat-label { font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+    /* LIGHT CONTENT AREA */
+    .story { max-width: 720px; margin: 0 auto; padding: 80px 6vw; background: var(--off); }
+    .chapter { margin-bottom: 72px; }
+    .chapter-tag { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .chapter-icon { font-size: 20px; }
+    .chapter-label { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); }
+    .chapter-line { flex: 1; height: 1px; background: var(--light); }
+    .chapter h2 { font-family: 'Syne', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: var(--navy); letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 24px; }
+    .chapter p { font-size: 17px; color: var(--mid); line-height: 1.9; margin-bottom: 20px; }
+    .chapter p strong { color: var(--navy); font-weight: 600; }
+    .chapter p em { color: var(--coral); font-style: italic; }
+
+    .pull-quote { border-left: 3px solid var(--teal); padding: 20px 28px; margin: 32px 0; background: rgba(14,165,233,0.05); border-radius: 0 8px 8px 0; }
+    .pull-quote p { font-family: 'Crimson Pro', serif; font-size: 22px; color: var(--navy); font-style: italic; line-height: 1.6; margin: 0; }
+    .pull-quote p span { color: var(--teal); font-style: normal; font-weight: 600; }
+
+    .finding-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .finding-card { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 20px 24px; border-top: 3px solid var(--coral); transition: transform 0.2s, box-shadow 0.2s; }
+    .finding-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(15,23,42,0.08); }
+    .finding-card.teal { border-top-color: var(--teal); }
+    .finding-card-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--coral); line-height: 1; margin-bottom: 8px; }
+    .finding-card.teal .finding-card-num { color: var(--teal); }
+    .finding-card-label { font-size: 13px; color: var(--mid); line-height: 1.5; }
+
+    .story-divider { display: flex; align-items: center; gap: 16px; margin: 48px 0; color: var(--light); font-size: 12px; letter-spacing: 0.1em; }
+    .story-divider::before, .story-divider::after { content: ''; flex: 1; height: 1px; background: var(--light); }
+
+    .rfm-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 28px 0; }
+    .rfm-card { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 16px; text-align: center; transition: border-color 0.2s, transform 0.2s; }
+    .rfm-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+    .rfm-emoji { font-size: 22px; margin-bottom: 8px; }
+    .rfm-segment { font-size: 12px; color: var(--mid); margin-bottom: 6px; }
+    .rfm-count { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--navy); }
+    .rfm-pct { font-size: 11px; color: var(--teal); margin-top: 2px; }
+
+    .dashboard-frame { background: var(--white); border: 1px solid var(--light); border-radius: 16px; overflow: hidden; margin: 20px 0; box-shadow: 0 4px 16px rgba(15,23,42,0.06); }
+    .dashboard-label { padding: 12px 20px; background: var(--off); border-bottom: 1px solid var(--light); font-size: 11px; color: var(--mid); letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .dashboard-label::before { content: '●'; color: var(--coral); font-size: 8px; }
+    .dashboard-img-placeholder { height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: var(--off); }
+    .dashboard-img-placeholder .icon { font-size: 36px; opacity: 0.3; }
+    .dashboard-img-placeholder p { font-size: 13px; color: var(--light); }
+
+    .rec-list { display: flex; flex-direction: column; gap: 16px; margin: 28px 0; }
+    .rec-item { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s, transform 0.2s; }
+    .rec-item:hover { border-color: var(--teal); transform: translateX(4px); }
+    .rec-num { width: 36px; height: 36px; border-radius: 8px; background: rgba(14,165,233,0.08); color: var(--teal); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .rec-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .rec-desc { font-size: 14px; color: var(--mid); line-height: 1.7; }
+
+    .action-list { display: flex; flex-direction: column; gap: 12px; margin: 28px 0; }
+    .action-item { background: var(--white); border: 1px solid var(--light); border-radius: var(--radius); padding: 18px 24px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s; }
+    .action-item:hover { border-color: var(--teal); }
+    .action-time { font-size: 12px; font-weight: 700; color: var(--coral); flex-shrink: 0; padding-top: 2px; min-width: 44px; }
+    .action-text { font-size: 15px; color: var(--mid); line-height: 1.6; }
+    .action-text strong { color: var(--navy); }
+
+    .reflection { background: var(--white); border: 1px solid var(--light); border-left: 4px solid var(--teal); border-radius: 0 16px 16px 0; padding: 40px 48px; margin: 48px 0; }
+    .reflection p { font-family: 'Crimson Pro', serif; font-size: 20px; color: var(--navy); font-style: italic; line-height: 1.8; margin-bottom: 16px; }
+    .reflection p:last-child { margin: 0; }
+    .reflection strong { color: var(--teal); font-style: normal; }
+
+    .tools-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    .tool-badge { background: var(--white); border: 1px solid var(--light); color: var(--mid); font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 6px; }
+
+    .cs-cta { background: var(--navy); border-radius: 16px; padding: 48px; text-align: center; margin-top: 64px; }
+    .cs-cta h3 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .cs-cta p { font-size: 16px; color: #64748B; margin-bottom: 28px; }
+    .cs-cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-teal { background: var(--teal); color: #fff; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .btn-teal:hover { background: #0284C7; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .finding-row { grid-template-columns: 1fr; }
+      .rfm-grid { grid-template-columns: repeat(2,1fr); }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .reflection { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Grace<span>.</span></a>
+    <a href="index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="case-file-tag">Case File · 001</div>
+      <div class="case-file-num">001</div>
+      <h1>The Revenue<br><span class="accent">Illusion</span></h1>
+      <p class="hero-hook">Revenue was up 18%. Everyone celebrated.<br>But somewhere in the numbers, <strong>something wasn't adding up.</strong><br>I opened the data to find out why.</p>
+      <div class="hero-meta">
+        <div><div class="meta-label">Company</div><div class="meta-value">CartPulse Nigeria</div></div>
+        <div><div class="meta-label">Industry</div><div class="meta-value">E-Commerce · Retail</div></div>
+        <div><div class="meta-label">Dataset</div><div class="meta-value">20,000 rows</div></div>
+        <div><div class="meta-label">Tools</div><div class="meta-value">Excel · Power BI · Python</div></div>
+      </div>
+      <div class="scroll-hint"><div class="scroll-line"></div>Scroll to read the investigation</div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">₦2.83B</div><div class="stat-label">Total Revenue</div></div>
+    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Data Issues Fixed</div></div>
+    <div class="stat"><div class="stat-num">61.1%</div><div class="stat-label">Hidden Gem Margin</div></div>
+    <div class="stat"><div class="stat-num">39.5%</div><div class="stat-label">Customers At Risk</div></div>
+  </div>
+
+  <div class="story">
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">📂</span><span class="chapter-label">Opening the File</span><div class="chapter-line"></div></div>
+      <h2>Some numbers lie.<br>This one did.</h2>
+      <p>Revenue was up 18%. Champagne was almost opened.</p>
+      <p>But somewhere in the finance team, someone noticed something that didn't add up. Sales were growing. Customers were buying. The dashboard looked healthy.</p>
+      <p>Yet profits were quietly... <strong>shrinking.</strong></p>
+      <p>If CartPulse Nigeria was selling more than ever — why was less money hitting the bottom line?</p>
+      <p><em>I opened the data to find out.</em></p>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🔍</span><span class="chapter-label">The Investigation</span><div class="chapter-line"></div></div>
+      <h2>20,000 rows. Three cities.<br>One uncomfortable truth.</h2>
+      <p>But before I could find answers, I had to earn the right to trust the data.</p>
+      <p>The raw file was a disaster. Cities spelled five different ways. Dates in four different formats. Products assigned to wrong categories. 200 duplicate orders hiding in plain sight. Negative profits that made no mathematical sense.</p>
+      <p><strong>Eleven data quality issues in total.</strong></p>
+      <p>I documented every single one. Cleaned every single one. Wrote a formal Data Quality Report. And only then — did I let the data speak.</p>
+      <div class="pull-quote"><p><span>What it said next surprised everyone.</span></p></div>
+      <div class="tools-row">
+        <span class="tool-badge">Python</span>
+        <span class="tool-badge">Microsoft Excel</span>
+        <span class="tool-badge">XLOOKUP</span>
+        <span class="tool-badge">Pivot Tables</span>
+        <span class="tool-badge">Data Quality Report</span>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">⚡</span><span class="chapter-label">Finding One</span><div class="chapter-line"></div></div>
+      <h2>Electronics was carrying the entire business on its back.</h2>
+      <p>₦1.57 billion in revenue. The highest of any category. The boardroom loved it.</p>
+      <p>But when I looked at the profit margin — Electronics was keeping only <strong>₦38 out of every ₦100</strong> it made. The rest? Gone to costs.</p>
+      <p>Meanwhile Fashion was sitting quietly in second place. Less revenue, yes. But keeping <strong>₦52 out of every ₦100.</strong></p>
+      <div class="finding-row">
+        <div class="finding-card"><div class="finding-card-num">38.1%</div><div class="finding-card-label">Electronics margin — highest revenue, lowest efficiency</div></div>
+        <div class="finding-card teal"><div class="finding-card-num">52.3%</div><div class="finding-card-label">Fashion margin — nearly matching Electronics profit on far less revenue</div></div>
+      </div>
+      <div class="pull-quote"><p>Fashion was <span>almost as profitable as Electronics</span> — on hundreds of millions less in revenue. Nobody had noticed.</p></div>
+      <p>The business wasn't broken. It was <strong>betting everything on its most expensive category</strong> while its most efficient one was being ignored.</p>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">💎</span><span class="chapter-label">Finding Two</span><div class="chapter-line"></div></div>
+      <h2>Then I found the hidden gem.</h2>
+      <p>The Zara Midi Dress. Sitting in the middle of the catalogue. Barely marketed. Nobody talking about it.</p>
+      <p><strong>61.1% profit margin.</strong> The highest of any product in the entire business.</p>
+      <p>CartPulse was spending its marketing budget promoting Electronics while their <em>most efficient product</em> was collecting dust on a digital shelf.</p>
+      <div class="finding-row">
+        <div class="finding-card teal"><div class="finding-card-num">61.1%</div><div class="finding-card-label">Zara Midi Dress — highest margin in the entire product catalogue</div></div>
+        <div class="finding-card"><div class="finding-card-num">Lowest</div><div class="finding-card-label">HP Laptop 15 — worst margin in the catalogue, yet heavily featured</div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🗺️</span><span class="chapter-label">Finding Three</span><div class="chapter-line"></div></div>
+      <h2>Port Harcourt leads.<br>But not for the reason you think.</h2>
+      <p>Port Harcourt had the highest revenue and profit of all three cities. The natural assumption was that customers there spent more.</p>
+      <p>I checked the average order value. Then checked it again.</p>
+      <p><strong>All three cities had virtually identical values.</strong> Port Harcourt: ₦141,096. Abuja: ₦142,936. Lagos: ₦139,875.</p>
+      <div class="pull-quote"><p>Port Harcourt didn't win because its customers were better. It won because <span>it had more of them.</span></p></div>
+      <p>Lagos and Abuja weren't underperforming markets. They were <strong>underleveraged ones.</strong></p>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">👥</span><span class="chapter-label">Finding Four</span><div class="chapter-line"></div></div>
+      <h2>Then I looked at the customers.<br>And found the real crisis.</h2>
+      <p>1,500 customers. I scored every single one using RFM analysis — how recently they bought, how often, how much they spent. What came back was uncomfortable.</p>
+      <div class="rfm-grid">
+        <div class="rfm-card"><div class="rfm-emoji">👑</div><div class="rfm-segment">Champions</div><div class="rfm-count">242</div><div class="rfm-pct">16.1%</div></div>
+        <div class="rfm-card"><div class="rfm-emoji">💛</div><div class="rfm-segment">Loyal</div><div class="rfm-count">305</div><div class="rfm-pct">20.3%</div></div>
+        <div class="rfm-card"><div class="rfm-emoji">🌱</div><div class="rfm-segment">Potential</div><div class="rfm-count">237</div><div class="rfm-pct">15.8%</div></div>
+        <div class="rfm-card"><div class="rfm-emoji">⚠️</div><div class="rfm-segment">At Risk</div><div class="rfm-count">247</div><div class="rfm-pct">16.5%</div></div>
+        <div class="rfm-card"><div class="rfm-emoji">😴</div><div class="rfm-segment">Lost</div><div class="rfm-count">346</div><div class="rfm-pct">23.1%</div></div>
+        <div class="rfm-card"><div class="rfm-emoji">👀</div><div class="rfm-segment">Needs Attention</div><div class="rfm-count">123</div><div class="rfm-pct">8.2%</div></div>
+      </div>
+      <p>36% were Champions or Loyal. Good news. But <strong>nearly 4 in 10 customers were At Risk or completely Lost</strong> — and nobody had noticed because revenue was still going up.</p>
+      <div class="pull-quote"><p>New customers were <span>masking the exits.</span> The revenue number was growing — but so was the hole in the bucket.</p></div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">📊</span><span class="chapter-label">The Dashboard</span><div class="chapter-line"></div></div>
+      <h2>Every finding. One dashboard.<br>Built for the boardroom.</h2>
+      <p>A 3-page interactive Power BI dashboard was built to bring every finding to life — designed so the CEO could get answers in seconds, not slides.</p>
+      <div class="dashboard-frame">
+        <div class="dashboard-label">Page 1 — Executive Overview</div>
+        <div class="dashboard-img-placeholder"><div class="icon">📊</div><p>Add your Executive Overview screenshot here</p></div>
+      </div>
+      <div class="dashboard-frame">
+        <div class="dashboard-label">Page 2 — Regional & Product Performance</div>
+        <div class="dashboard-img-placeholder"><div class="icon">🗺️</div><p>Add your Regional & Product screenshot here</p></div>
+      </div>
+      <div class="dashboard-frame">
+        <div class="dashboard-label">Page 3 — Customer Intelligence</div>
+        <div class="dashboard-img-placeholder"><div class="icon">👥</div><p>Add your Customer Intelligence screenshot here</p></div>
+      </div>
+      <div class="tools-row">
+        <span class="tool-badge">Power BI</span>
+        <span class="tool-badge">DAX Measures</span>
+        <span class="tool-badge">RFM Segmentation</span>
+        <span class="tool-badge">KPI Cards</span>
+        <span class="tool-badge">Slicers</span>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">⚖️</span><span class="chapter-label">The Verdict</span><div class="chapter-line"></div></div>
+      <h2>Revenue was never the problem.</h2>
+      <p>CartPulse Nigeria is not a struggling business. It is a business with a hidden structural problem.</p>
+      <p>Electronics is generating revenue but bleeding margin. Fashion is the efficiency story nobody was telling. And while the top line grew, the customer base was quietly eroding underneath.</p>
+      <p><strong>What was earned versus what was kept — that was the real story all along.</strong></p>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">💡</span><span class="chapter-label">The Recommendations</span><div class="chapter-line"></div></div>
+      <h2>Five things I told<br>the executive team.</h2>
+      <div class="rec-list">
+        <div class="rec-item"><div class="rec-num">1</div><div><div class="rec-title">Stop treating Electronics as the hero</div><div class="rec-desc">It is the workhorse, not the profit engine. Protect it, yes. But stop betting everything on the category with the thinnest margin.</div></div></div>
+        <div class="rec-item"><div class="rec-num">2</div><div><div class="rec-title">Fashion deserves a seat at the strategy table</div><div class="rec-desc">The Zara Midi Dress at 61.1% margin is more efficient than your entire Electronics catalogue. Scale it. Market it. Let it work.</div></div></div>
+        <div class="rec-item"><div class="rec-num">3</div><div><div class="rec-title">Invest in Lagos and Abuja</div><div class="rec-desc">Since margins are identical across all cities, increasing order volume in Lagos and Abuja would directly grow profits without additional complexity.</div></div></div>
+        <div class="rec-item"><div class="rec-num">4</div><div><div class="rec-title">Protect your Champions</div><div class="rec-desc">The 547 Champions and Loyal customers are the backbone of CartPulse's revenue. A loyalty programme costs a fraction of what losing them would.</div></div></div>
+        <div class="rec-item"><div class="rec-num">5</div><div><div class="rec-title">Launch an At Risk win-back campaign — now</div><div class="rec-desc">247 customers are At Risk. They haven't churned yet. A personalised campaign today costs far less than acquiring replacements tomorrow.</div></div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">🗓️</span><span class="chapter-label">CEO Action Plan</span><div class="chapter-line"></div></div>
+      <h2>If I were the CEO —<br>here's what Monday looks like.</h2>
+      <div class="action-list">
+        <div class="action-item"><div class="action-time">7AM</div><div class="action-text">Call the marketing team. <strong>Redirect budget toward Fashion promotions</strong> — specifically the Zara Midi Dress. High margin, undermarketed.</div></div>
+        <div class="action-item"><div class="action-time">9AM</div><div class="action-text">Request a <strong>pricing review on the HP Laptop 15.</strong> Lowest margin in the entire catalogue. Something has to change.</div></div>
+        <div class="action-item"><div class="action-time">11AM</div><div class="action-text">Greenlight a <strong>personalised win-back campaign</strong> for the 247 At Risk customers. Urgent. Before they become the 346 Lost ones.</div></div>
+        <div class="action-item"><div class="action-time">2PM</div><div class="action-text">Set a new company KPI — <strong>profit margin per category</strong> tracked monthly. What happened this year cannot happen again.</div></div>
+        <div class="action-item"><div class="action-time">4PM</div><div class="action-text">Brief the Lagos and Abuja regional managers. <strong>Same margins, fewer orders — fix the volume gap</strong> before next financial year.</div></div>
+      </div>
+    </div>
+
+    <div class="story-divider">· · ·</div>
+
+    <div class="chapter fade-up">
+      <div class="chapter-tag"><span class="chapter-icon">✍️</span><span class="chapter-label">Reflection</span><div class="chapter-line"></div></div>
+      <div class="reflection">
+        <p>I built this project because I wanted to solve a real business problem — not just make charts.</p>
+        <p>And what I found reminded me why I love this work.</p>
+        <p><strong>The data never lies. It just waits for someone patient enough to listen.</strong></p>
+        <p>I am a Medical Laboratory Science student at Nnamdi Azikiwe University, teaching myself business intelligence one project at a time. This is Case File 001. There will be more.</p>
+      </div>
+    </div>
+
+    <div class="cs-cta fade-up">
+      <h3>Want to see the full project?</h3>
+      <p>The complete Excel workbook, Data Quality Report, Python script, and Power BI dashboard are all on GitHub.</p>
+      <div class="cs-cta-btns">
+        <a href="https://github.com/your-username/cartpulse-nigeria" class="btn-teal" target="_blank">View GitHub Repo ↗</a>
+        <a href="index.html#projects" class="btn-outline">← Back to Projects</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
